@@ -1,10 +1,13 @@
 # Freeze aws provider version
 terraform {
-  required_version = ">= 0.12"
+  required_version = ">= 0.15"
 
   required_providers {
-    aws     = ">= 2.9.0"
-    archive = ">= 1.2.2"
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+    archive = ">= 2.4.0"
   }
 }
 
@@ -223,7 +226,7 @@ resource "aws_lambda_function" "this" {
 
   handler = "index.handler"
   role = aws_iam_role.this[0].arn
-  runtime = "nodejs12.x"
+  runtime = "nodejs18.x"
 
   filename         = data.archive_file.zip.output_path
   source_code_hash = data.archive_file.zip.output_base64sha256
